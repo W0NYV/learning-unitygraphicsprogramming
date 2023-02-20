@@ -349,7 +349,7 @@ MonoBehaviour:
   _cohesionNeighborhoodRadius: 2
   _alignmentNeighborhoodRadius: 2
   _separateNeighborhoodRadius: 1
-  _maxSpeed: 5
+  _maxSpeed: 10
   _maxSteerForce: 0.5
   _cohesionWeight: 1
   _alignmentWeight: 1
