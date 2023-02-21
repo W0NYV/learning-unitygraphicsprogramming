@@ -29,7 +29,10 @@ namespace Vol2.ch02
         [SerializeField] private ComputeShader _computeShader;
     
         private ComputeBuffer _trailBuffer;
+        public ComputeBuffer TrailBuffer { get => _trailBuffer; }
+
         private ComputeBuffer _nodeBuffer;
+        public ComputeBuffer NodeBuffer { get => _nodeBuffer; }
 
         private ComputeBuffer _inputBuffer;
         public ComputeBuffer InputBuffer { get => _inputBuffer; }
@@ -39,8 +42,12 @@ namespace Vol2.ch02
 
         [SerializeField] private int _totalNodeNum = 5;
         [SerializeField] private float _updateDistanceMin = 0.01f;
+
         [SerializeField] private float _life = 10f;
+        public float Life { get => _life; }
+
         private int _nodeNum;
+        public int NodeNum { get => _nodeNum; }
 
         private void Start() {
 
