@@ -48,20 +48,15 @@ namespace Vol2.ch02
             var kernelUpdate = _computeShader.FindKernel("Update");
             _computeShader.SetBuffer(kernelUpdate, "_ParticleBufferWrite", _particleBuffer);
 
-            uint x, y, z;
-            //カーネルのスレッドグループサイズを取ってくる
-            _computeShader.GetKernelThreadGroupSizes(kernelUpdate, out x, out y, out z);
-            _computeShader.Dispatch(kernelUpdate, Mathf.CeilToInt(_particleNum / x), Mathf.CeilToInt(1f / y), Mathf.CeilToInt(1f / z));
+            var updateThreadNum = new Vector3(_particleNum, 1f, 1f);
+            ComputeShaderUtil.Dispatch(_computeShader, kernelUpdate, updateThreadNum);
 
             var kernelInput = _computeShader.FindKernel("WriteToInput");
             _computeShader.SetBuffer(kernelInput, "_ParticleBufferRead", _particleBuffer);
-            _computeShader.SetBuffer(kernelInput, "InputBuffer", _trails.InputBuffer);
+            _computeShader.SetBuffer(kernelInput, "_InputBuffer", _trails.InputBuffer);
 
-            uint x2, y2, z2;
-            //カーネルのスレッドグループサイズを取ってくる
-            _computeShader.GetKernelThreadGroupSizes(kernelInput, out x2, out y2, out z2);
-            _computeShader.Dispatch(kernelInput, Mathf.CeilToInt(_particleNum / x2), Mathf.CeilToInt(1f / y2), Mathf.CeilToInt(1f / z2));
-
+            var inputThreadNum = new Vector3(_particleNum, 1f, 1f);
+            ComputeShaderUtil.Dispatch(_computeShader, kernelInput, inputThreadNum);
         }
 
         private void OnDestroy()

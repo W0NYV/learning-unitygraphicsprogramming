@@ -59,7 +59,7 @@ float snoise(float4 v)
 
     float4 i0;
     float3 isX = step(x0.yzw, x0.xxx);
-    float3 isYZ = step(x0.zww, x0.xyz);
+    float3 isYZ = step(x0.zww, x0.yyz);
 
     i0.x = isX.x + isX.y + isX.z;
     i0.yzw = 1.0 - isX;

@@ -40,7 +40,7 @@ namespace Vol2.ch02
         [SerializeField] private int _trailNum = 10;
         public int TrailNum { get => _trailNum; }
 
-        [SerializeField] private int _totalNodeNum = 5;
+        //[SerializeField] private int _totalNodeNum = 5;
         [SerializeField] private float _updateDistanceMin = 0.01f;
 
         [SerializeField] private float _life = 10f;
@@ -53,10 +53,12 @@ namespace Vol2.ch02
 
             const float MAX_FPS = 60f;
             _nodeNum = Mathf.CeilToInt(_life * MAX_FPS);
+
+            var totalNodeNum = _trailNum * _nodeNum;
             
             //ComputeBufferの初期化
             _trailBuffer = new ComputeBuffer(_trailNum, Marshal.SizeOf(typeof(Trail)));
-            _nodeBuffer = new ComputeBuffer(_totalNodeNum, Marshal.SizeOf(typeof(Node)));
+            _nodeBuffer = new ComputeBuffer(totalNodeNum, Marshal.SizeOf(typeof(Node)));
             _inputBuffer = new ComputeBuffer(_trailNum, Marshal.SizeOf(typeof(Input)));
 
             var initTrail = new Trail() { currentNodeIdx = -1 };
@@ -64,7 +66,7 @@ namespace Vol2.ch02
 
             //とりあえず -1 をセットしておく
             _trailBuffer.SetData(Enumerable.Repeat(initTrail, _trailNum).ToArray());
-            _nodeBuffer.SetData(Enumerable.Repeat(initNode, _totalNodeNum).ToArray());
+            _nodeBuffer.SetData(Enumerable.Repeat(initNode, totalNodeNum).ToArray());
 
         }
 
