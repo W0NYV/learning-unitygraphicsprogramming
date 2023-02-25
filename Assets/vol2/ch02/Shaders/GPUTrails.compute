@@ -9,6 +9,7 @@ uint _TrailNum;
 RWStructuredBuffer<Trail> _TrailBuffer;
 RWStructuredBuffer<Node> _NodeBuffer;
 
+//Nodeバッファから指定のNodeを取得する
 Node getNode(int trailIdx, int nodeIdx)
 {
     return _NodeBuffer[toNodeBufIdx(trailIdx, nodeIdx)];
@@ -31,12 +32,15 @@ void CalcInput(uint3 id : SV_DispatchThreadID)
     {
         Trail trail = _TrailBuffer[trailIdx];
         Input input = _InputBuffer[trailIdx];
+
         int currentNodeIdx = trail.currentNodeIdx;
 
         bool update = true;
         if(trail.currentNodeIdx >= 0) 
         {
             Node node = getNode(trailIdx, currentNodeIdx);
+
+            //インプットの位置と最新のNodeの位置との距離が近ければ更新しない
             float dist = distance(input.position, node.position);
             update = dist > _UpdateDistanceMin;
         }
@@ -48,8 +52,9 @@ void CalcInput(uint3 id : SV_DispatchThreadID)
             node.position = input.position;
 
             currentNodeIdx++;
-            currentNodeIdx %= _NodeNumPerTrail;
+            currentNodeIdx %= _NodeNumPerTrail; //TrailあたりのNode数を超えたら0番目のノードを更新するようにする
 
+            //Nodeバッファに入力の時間と位置を保存
             setNode(node, trailIdx, currentNodeIdx);
 
             trail.currentNodeIdx = currentNodeIdx;

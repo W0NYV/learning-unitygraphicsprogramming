@@ -10,14 +10,15 @@ namespace Vol2.ch02
     {
         public struct Trail
         {
+            //最後に書き込みしたNodeバッファのインデックス
             public int currentNodeIdx;
         }
 
         //Trail内の制御点
         public struct Node
         {
-            public float time;
-            public Vector3 pos;
+            public float time; //更新した時間
+            public Vector3 pos; //位置
         }
 
         //軌跡をの残すものからの1フレーム分の入力
@@ -58,8 +59,8 @@ namespace Vol2.ch02
             
             //ComputeBufferの初期化
             _trailBuffer = new ComputeBuffer(_trailNum, Marshal.SizeOf(typeof(Trail)));
-            _nodeBuffer = new ComputeBuffer(totalNodeNum, Marshal.SizeOf(typeof(Node)));
-            _inputBuffer = new ComputeBuffer(_trailNum, Marshal.SizeOf(typeof(Input)));
+            _nodeBuffer = new ComputeBuffer(totalNodeNum, Marshal.SizeOf(typeof(Node))); //全Trail分のNodeを1まとめで扱う
+            _inputBuffer = new ComputeBuffer(_trailNum, Marshal.SizeOf(typeof(Input))); //全Trail分のInputを1まとめで扱う
 
             var initTrail = new Trail() { currentNodeIdx = -1 };
             var initNode = new Node() { time = -1 };

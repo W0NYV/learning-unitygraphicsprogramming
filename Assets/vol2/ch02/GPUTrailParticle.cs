@@ -51,6 +51,7 @@ namespace Vol2.ch02
             var updateThreadNum = new Vector3(_particleNum, 1f, 1f);
             ComputeShaderUtil.Dispatch(_computeShader, kernelUpdate, updateThreadNum);
 
+            //Updateカーネルで位置を書き込んだバッファを、Inputバッファに書き込む
             var kernelInput = _computeShader.FindKernel("WriteToInput");
             _computeShader.SetBuffer(kernelInput, "_ParticleBufferRead", _particleBuffer);
             _computeShader.SetBuffer(kernelInput, "_InputBuffer", _trails.InputBuffer);
